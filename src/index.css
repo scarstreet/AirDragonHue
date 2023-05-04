@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Bruno+Ace");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  @apply bg-neutral-900 text-white;
+}
+
+h1 {
+  @apply lg:text-9xl text-7xl;
+  font-family: "Bruno Ace";
+}
+
+h4 {
+  @apply lg:text-3xl text-xl;
+  font-family: "Bruno Ace";
+}
+
+.hide-scroll ::-webkit-scrollbar {
+  display: none;
+}
