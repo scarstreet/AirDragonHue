@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Bruno+Ace");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,100&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,17 +7,22 @@
 
 
 body {
-  @apply bg-neutral-900 text-white;
+  @apply text-white overflow-x-hidden bg-neutral-950;
 }
 
 h1 {
-  @apply lg:text-9xl text-7xl;
+  @apply text-[9vw];
   font-family: "Bruno Ace";
 }
 
 h4 {
-  @apply lg:text-3xl text-xl;
-  font-family: "Bruno Ace";
+  @apply text-[3.8vw] leading-[3.5vw] md:text-[2vw] lg:leading-[1.8vw];
+  font-family: "Poppins";
+}
+
+h5 {
+  @apply text-[3vw] leading-[2.8vw] md:text-[2vw] md:leading-[1.8vw];
+  font-family: "Poppins";
 }
 
 .hide-scroll ::-webkit-scrollbar {
