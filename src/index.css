@@ -11,7 +11,12 @@ body {
 }
 
 h1 {
-  @apply text-[9vw];
+  @apply text-[9vw] xl:text-[6.5vw];
+  font-family: "Bruno Ace";
+}
+
+h2 {
+  @apply text-[6vw] xl:text-[6.5vw];
   font-family: "Bruno Ace";
 }
 
