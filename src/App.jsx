@@ -178,19 +178,27 @@ function App() {
   };
 
   const [pageTitle,setTitle] = useState('')
-
-  useEffect(() => {
+  const defaultPageTitle = () => {
     let found = false;
     Object.keys(isVisibles).forEach((item) => {
       if (isVisibles[item]) {
-        setTitle(refs[item].title)
+        setTitle(refs[item].title);
         found = true;
       }
       if (!found) {
-        setTitle('')
+        setTitle("");
       }
-    })
-  },[isVisibles])
+    });
+  }
+  useEffect(() => {
+    defaultPageTitle();
+  }, [
+    isVisibles.page1,
+    isVisibles.page2,
+    isVisibles.page3,
+    isVisibles.page4,
+    isVisibles.page5,
+  ]);
 
   return (
     <>
@@ -330,7 +338,7 @@ function App() {
             </h2>
             <div
               className={
-                "w-[60vw] max-sm:w-[80vw] max-sm:ml-0 text-justify hyphens-auto mt-4 ml-[8vw] duration-700 " +
+                "w-[80vw] max-sm:ml-0 text-justify hyphens-auto mt-4 ml-[8vw] duration-700 " +
                 (isVisibles["page2"]
                   ? " opacity-100"
                   : " -translate-x-5 opacity-0 ")
@@ -343,7 +351,7 @@ function App() {
                 together. Within this page, you will find the references and
                 documentation of how this page was created, along with it{"'"}s
                 sources. The kinds of methodologies and tools that are tested on
-                this page is as follows :
+                this page is as follows:
               </p>
               <div className="space-y-3 m-10 w-[40vw]">
                 {[
@@ -419,11 +427,13 @@ function App() {
                 <div
                   key={"navigator-" + item_idx}
                   className={
-                    "w-3 h-10 duration-500 hover:-translate-x-1 border hover:bg-white hover:border-white " +
+                    "w-3 h-10 duration-500 hover:translate-x-1 border hover:bg-transparent " +
                     (isVisibles[item] ? " " : bgAirdragon(item_idx)) +
                     " " +
                     borderAirdragon(item_idx)
                   }
+                  onMouseEnter={() => { setTitle(refs[item].title) }}
+                  onMouseLeave={()=>{ defaultPageTitle() }}
                 ></div>
               ))}
             </div>
