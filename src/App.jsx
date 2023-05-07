@@ -161,22 +161,36 @@ function App() {
   };
   const pages = 9;
   const parallaxRef = useRef();
-  
   const refs = {
-    'page1': useRef(),
-    'page2': useRef(),
-    'page3': useRef(),
-    'page4': useRef(),
-    'page5': useRef(),
+    page1: {ref:useRef(),title:'Air Dragon Hue'},
+    page2: {ref:useRef(),title:'What is this?'},
+    page3: {ref:useRef(),title:'Page3'},
+    page4: {ref:useRef(),title:'Page4'},
+    page5: {ref:useRef(),title:'Page5'},
   };
 
   const isVisibles = {
-    'page1': useOnScreen(refs['page1'],"0px"),
-    'page2': useOnScreen(refs['page2'],"0px"),
-    'page3': useOnScreen(refs['page3'],"0px"),
-    'page4': useOnScreen(refs['page4'],"0px"),
-    'page5': useOnScreen(refs['page5'],"0px"),
+    page1: useOnScreen(refs["page1"].ref, "50px"),
+    page2: useOnScreen(refs["page2"].ref, "50px"),
+    page3: useOnScreen(refs["page3"].ref, "50px"),
+    page4: useOnScreen(refs["page4"].ref, "50px"),
+    page5: useOnScreen(refs["page5"].ref, "50px"),
   };
+
+  const [pageTitle,setTitle] = useState('')
+
+  useEffect(() => {
+    let found = false;
+    Object.keys(isVisibles).forEach((item) => {
+      if (isVisibles[item]) {
+        setTitle(refs[item].title)
+        found = true;
+      }
+      if (!found) {
+        setTitle('')
+      }
+    })
+  },[isVisibles])
 
   return (
     <>
@@ -299,7 +313,10 @@ function App() {
             ))}
         </ParallaxLayer>
         <ParallaxLayer offset={2} className="flex items-center">
-          <div className="flex flex-col p-6 z-20 w-screen" ref={refs["page2"]}>
+          <div
+            className="flex flex-col p-6 z-20 w-screen"
+            ref={refs["page2"].ref}
+          >
             <h2
               className={`self-end duration-700 ${
                 isVisibles["page2"]
@@ -390,20 +407,26 @@ function App() {
             ))}
         </ParallaxLayer>
         <ParallaxLayer offset={2} sticky={{ start: 2, end: pages }}>
-          <div className="space-y-3 absolute right-0 bottom-0 m-4">
-            {Object.keys(refs).map((item, item_idx) => (
-              <div key={"navigator-" + item_idx} className="flex space-x-1 items-center">
-                <div> example text</div>
+          <div className="absolute right-0 bottom-0 m-4 flex flex-nowrap">
+            <span
+              style={{ writingMode: "vertical-rl", textOrientation: "mixed", fontFamily: 'Bruno Ace' }}
+              className="opacity-20 self-end"
+            >
+              {pageTitle}
+            </span>
+            <div className="space-y-3 ">
+              {Object.keys(refs).map((item, item_idx) => (
                 <div
+                  key={"navigator-" + item_idx}
                   className={
-                    "w-3 h-10 duration-500 hover:-translate-x-1 border " +
+                    "w-3 h-10 duration-500 hover:-translate-x-1 border hover:bg-white hover:border-white " +
                     (isVisibles[item] ? " " : bgAirdragon(item_idx)) +
                     " " +
                     borderAirdragon(item_idx)
                   }
                 ></div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </ParallaxLayer>
       </Parallax>
