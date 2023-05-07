@@ -211,7 +211,7 @@ function App() {
           className="flex items-center z-10 p-6"
           sticky={{ start: 0, end: 1 }}
         >
-          <h1 className=" absolute whitespace-nowrap">{text}</h1>
+          <h1 className=" absolute whitespace-nowrap" ref={refs.page1.ref}>{text}</h1>
           {Array(7)
             .fill(0)
             .map((i, i_idx) => (
@@ -320,7 +320,46 @@ function App() {
               </animated.svg>
             ))}
         </ParallaxLayer>
-        <ParallaxLayer offset={2} className="flex items-center">
+        <ParallaxLayer offset={2} speed={1} className="-z-10">
+          {Array(7)
+            .fill(0)
+            .map((i, i_idx) => (
+              <animated.svg
+                id="visual"
+                className="absolute bottom-[-60vh] left-[-47vh] z-0"
+                key={"blob1-" + i_idx}
+                viewBox="0 0 100 100"
+                height="90vh"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                version="1.1"
+                style={{ transform: `translateX(-${100}px)` }}
+              >
+                <g transform="translate(50.56295407309549 49.100233518030976)">
+                  <path
+                    fill="none"
+                    stroke={airdragonHex(i_idx)}
+                    stroke-width="0.1"
+                  >
+                    <animate
+                      attributeName="d"
+                      dur="15000ms"
+                      repeatCount="indefinite"
+                      begin={`${500 * i_idx}ms`}
+                      values="M20 -22C25.8 -14.1 30.4 -7.1 29.7 -0.7C29 5.7 23 11.3 17.1 21.3C11.3 31.3 5.7 45.7 -0.6 46.2C-6.8 46.8 -13.7 33.7 -15 23.7C-16.3 13.7 -12.1 6.8 -16 -3.9C-19.9 -14.7 -32.1 -29.5 -30.8 -37.3C-29.5 -45.1 -14.7 -46.1 -3.8 -42.2C7.1 -38.4 14.1 -29.8 20 -22;
+                    M24.1 -33C25.6 -22.6 17.3 -11.3 12.6 -4.7C7.8 1.8 6.7 3.7 5.2 6.2C3.7 8.7 1.8 11.8 -4 15.9C-9.9 19.9 -19.8 24.8 -22.1 22.3C-24.5 19.8 -19.2 9.9 -16.9 2.4C-14.5 -5.2 -15 -10.4 -12.7 -20.8C-10.4 -31.2 -5.2 -46.9 3.1 -49.9C11.3 -53 22.6 -43.5 24.1 -33;
+                    M23.8 -24.3C27.3 -20.3 24.1 -10.1 20 -4.1C15.8 1.8 10.7 3.7 7.2 14.1C3.7 24.5 1.8 43.5 -2.7 46.2C-7.3 49 -14.6 35.4 -21.1 25C-27.6 14.6 -33.3 7.3 -34.4 -1.1C-35.4 -9.4 -31.9 -18.9 -25.4 -22.9C-18.9 -26.9 -9.4 -25.4 0.4 -25.8C10.1 -26.1 20.3 -28.3 23.8 -24.3;
+                    M20 -22C25.8 -14.1 30.4 -7.1 29.7 -0.7C29 5.7 23 11.3 17.1 21.3C11.3 31.3 5.7 45.7 -0.6 46.2C-6.8 46.8 -13.7 33.7 -15 23.7C-16.3 13.7 -12.1 6.8 -16 -3.9C-19.9 -14.7 -32.1 -29.5 -30.8 -37.3C-29.5 -45.1 -14.7 -46.1 -3.8 -42.2C7.1 -38.4 14.1 -29.8 20 -22;
+                    "
+                    ></animate>
+                  </path>
+                </g>
+              </animated.svg>
+            ))}
+        </ParallaxLayer>
+          
+       
+        <ParallaxLayer offset={2} className="flex items-center z-50">
           <div
             className="flex flex-col p-6 z-20 w-screen"
             ref={refs["page2"].ref}
@@ -377,45 +416,9 @@ function App() {
             </div>
           </div>
         </ParallaxLayer>
-        <ParallaxLayer offset={2} speed={1} className="-z-10">
-          {Array(7)
-            .fill(0)
-            .map((i, i_idx) => (
-              <animated.svg
-                id="visual"
-                className="absolute bottom-[-60vh] left-[-47vh] z-0"
-                key={"blob1-" + i_idx}
-                viewBox="0 0 100 100"
-                height="90vh"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                version="1.1"
-                style={{ transform: `translateX(-${100}px)` }}
-              >
-                <g transform="translate(50.56295407309549 49.100233518030976)">
-                  <path
-                    fill="none"
-                    stroke={airdragonHex(i_idx)}
-                    stroke-width="0.1"
-                  >
-                    <animate
-                      attributeName="d"
-                      dur="15000ms"
-                      repeatCount="indefinite"
-                      begin={`${500 * i_idx}ms`}
-                      values="M20 -22C25.8 -14.1 30.4 -7.1 29.7 -0.7C29 5.7 23 11.3 17.1 21.3C11.3 31.3 5.7 45.7 -0.6 46.2C-6.8 46.8 -13.7 33.7 -15 23.7C-16.3 13.7 -12.1 6.8 -16 -3.9C-19.9 -14.7 -32.1 -29.5 -30.8 -37.3C-29.5 -45.1 -14.7 -46.1 -3.8 -42.2C7.1 -38.4 14.1 -29.8 20 -22;
-                    M24.1 -33C25.6 -22.6 17.3 -11.3 12.6 -4.7C7.8 1.8 6.7 3.7 5.2 6.2C3.7 8.7 1.8 11.8 -4 15.9C-9.9 19.9 -19.8 24.8 -22.1 22.3C-24.5 19.8 -19.2 9.9 -16.9 2.4C-14.5 -5.2 -15 -10.4 -12.7 -20.8C-10.4 -31.2 -5.2 -46.9 3.1 -49.9C11.3 -53 22.6 -43.5 24.1 -33;
-                    M23.8 -24.3C27.3 -20.3 24.1 -10.1 20 -4.1C15.8 1.8 10.7 3.7 7.2 14.1C3.7 24.5 1.8 43.5 -2.7 46.2C-7.3 49 -14.6 35.4 -21.1 25C-27.6 14.6 -33.3 7.3 -34.4 -1.1C-35.4 -9.4 -31.9 -18.9 -25.4 -22.9C-18.9 -26.9 -9.4 -25.4 0.4 -25.8C10.1 -26.1 20.3 -28.3 23.8 -24.3;
-                    M20 -22C25.8 -14.1 30.4 -7.1 29.7 -0.7C29 5.7 23 11.3 17.1 21.3C11.3 31.3 5.7 45.7 -0.6 46.2C-6.8 46.8 -13.7 33.7 -15 23.7C-16.3 13.7 -12.1 6.8 -16 -3.9C-19.9 -14.7 -32.1 -29.5 -30.8 -37.3C-29.5 -45.1 -14.7 -46.1 -3.8 -42.2C7.1 -38.4 14.1 -29.8 20 -22;
-                    "
-                    ></animate>
-                  </path>
-                </g>
-              </animated.svg>
-            ))}
-        </ParallaxLayer>
-        <ParallaxLayer offset={2} sticky={{ start: 2, end: pages }}>
-          <div className="absolute right-0 bottom-0 m-4 flex flex-nowrap">
+        
+      </Parallax>
+      <div className="fixed right-4 bottom-0 p-4 flex flex-nowrap z-10">
             <span
               style={{ writingMode: "vertical-rl", textOrientation: "mixed", fontFamily: 'Bruno Ace' }}
               className="opacity-20 self-end"
@@ -438,8 +441,6 @@ function App() {
               ))}
             </div>
           </div>
-        </ParallaxLayer>
-      </Parallax>
     </>
   );
 }
