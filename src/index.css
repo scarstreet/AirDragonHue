@@ -16,7 +16,7 @@ h1 {
 }
 
 h2 {
-  @apply text-[6vw] xl:text-[6.5vw];
+  @apply max-sm:text-3xl text-[6vw] xl:text-[6.5vw];
   font-family: "Bruno Ace";
 }
 
@@ -27,6 +27,11 @@ h4 {
 
 h5 {
   @apply text-[3vw] leading-[2.8vw] md:text-[2vw] md:leading-[1.8vw];
+  font-family: "Poppins";
+}
+
+p {
+  @apply max-sm:text-xs lg:text-2xl;
   font-family: "Poppins";
 }
 

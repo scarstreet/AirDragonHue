@@ -21,15 +21,12 @@ const useOnScreen = (ref = <div />, rootMargin = "40px", threshold = 1) => {
     );
     let interval = null;
     const doObserve = () => {
-      console.log(ref.current)
       if (ref.current) {
         observer.observe(ref.current);
-        clearInterval(interval)
+        clearInterval(interval);
       }
-    }
+    };
     interval = setInterval(doObserve, 500);
-
-
 
     return () => {
       if (ref.current) {
@@ -66,28 +63,76 @@ function App() {
         return "text-airdragon-1000";
     }
   };
-  const airdragonColor = (offset) => {
+  const hoverTextColor = (offset) => {
     switch (offset) {
       case 0:
-        return "airdragon-100";
+        return "hover:text-airdragon-100";
       case 1:
-        return "airdragon-200";
+        return "hover:text-airdragon-200";
       case 2:
-        return "airdragon-300";
+        return "hover:text-airdragon-300";
       case 3:
-        return "airdragon-400";
+        return "hover:text-airdragon-400";
       case 4:
-        return "airdragon-500";
+        return "hover:text-airdragon-500";
       case 5:
-        return "airdragon-600";
+        return "hover:text-airdragon-600";
       case 6:
-        return "airdragon-700";
+        return "hover:text-airdragon-700";
       case 7:
-        return "airdragon-800";
+        return "hover:text-airdragon-800";
       case 8:
-        return "airdragon-900";
+        return "hover:text-airdragon-900";
       default:
-        return "airdragon-1000";
+        return "hover:text-airdragon-1000";
+    }
+  };
+  const bgAirdragon = (offset) => {
+    switch (offset) {
+      case 0:
+        return "bg-airdragon-100";
+      case 1:
+        return "bg-airdragon-200";
+      case 2:
+        return "bg-airdragon-300";
+      case 3:
+        return "bg-airdragon-400";
+      case 4:
+        return "bg-airdragon-500";
+      case 5:
+        return "bg-airdragon-600";
+      case 6:
+        return "bg-airdragon-700";
+      case 7:
+        return "bg-airdragon-800";
+      case 8:
+        return "bg-airdragon-900";
+      default:
+        return "bg-airdragon-1000";
+    }
+  };
+  const borderAirdragon = (offset) => {
+    switch (offset) {
+      case 0:
+        return "border-airdragon-100";
+      case 1:
+        return "border-airdragon-200";
+      case 2:
+        return "border-airdragon-300";
+      case 3:
+        return "border-airdragon-400";
+      case 4:
+        return "border-airdragon-500";
+      case 5:
+        return "border-airdragon-600";
+      case 6:
+        return "border-airdragon-700";
+      case 7:
+        return "border-airdragon-800";
+      case 8:
+        return "border-airdragon-900";
+      default:
+        return "border-airdragon-1000";
     }
   };
   const airdragonHex = (offset) => {
@@ -114,15 +159,24 @@ function App() {
         return "#0d0d24";
     }
   };
-  const pages = 4;
+  const pages = 9;
   const parallaxRef = useRef();
-  let p2_title = useRef();
-  let onScreen = useOnScreen(p2_title)
+  
+  const refs = {
+    'page1': useRef(),
+    'page2': useRef(),
+    'page3': useRef(),
+    'page4': useRef(),
+    'page5': useRef(),
+  };
 
-  useEffect(() => {
-    console.log(p2_title)
-    onScreen = (p2_title);
-  },[])
+  const isVisibles = {
+    'page1': useOnScreen(refs['page1'],"0px"),
+    'page2': useOnScreen(refs['page2'],"0px"),
+    'page3': useOnScreen(refs['page3'],"0px"),
+    'page4': useOnScreen(refs['page4'],"0px"),
+    'page5': useOnScreen(refs['page5'],"0px"),
+  };
 
   return (
     <>
@@ -170,7 +224,7 @@ function App() {
                 </g>
               </svg>
             ))}
-          <div className="w-[40vw] h-[80vh] bg-airdragon-0 relative left-0 overflow-hidden border border-white">
+          <div className="w-[40vw] h-[80vh] bg-white relative left-0 overflow-hidden">
             {Array(9)
               .fill(0)
               .map((i, i_idx) => (
@@ -207,13 +261,13 @@ function App() {
             </h5>
           </ParallaxLayer>
         </ParallaxLayer>
-        <ParallaxLayer offset={1} speed={0.4}>
+        <ParallaxLayer offset={1} speed={0.2} className="-z-10">
           {Array(7)
             .fill(0)
             .map((i, i_idx) => (
               <animated.svg
                 id="visual"
-                className="absolute bottom-[-70vh] right-[-40rem] -scale-x-100"
+                className="absolute bottom-[-70vh] right-[-71vh] -scale-x-100"
                 key={"blob1-" + i_idx}
                 viewBox="0 0 100 100"
                 height="90vh"
@@ -244,25 +298,67 @@ function App() {
               </animated.svg>
             ))}
         </ParallaxLayer>
-        <ParallaxLayer offset={2.15} className="flex flex-col p-6">
-          {`${onScreen}`}
-          <h2
-            className={`self-end duration-700 ${
-              onScreen ? " opacity-100" : " translate-x-5 opacity-0 "
-            }`}
-            id="atitle"
-            ref={p2_title}
-          >
-            1. What is this?{``}
-          </h2>
+        <ParallaxLayer offset={2} className="flex items-center">
+          <div className="flex flex-col p-6 z-20 w-screen" ref={refs["page2"]}>
+            <h2
+              className={`self-end duration-700 ${
+                isVisibles["page2"]
+                  ? " opacity-100"
+                  : " translate-x-5 opacity-0 "
+              }`}
+              id="atitle"
+            >
+              I. What i
+              <span className="bg-white text-airdragon-900">s this</span>?{``}
+            </h2>
+            <div
+              className={
+                "w-[60vw] max-sm:w-[80vw] max-sm:ml-0 text-justify hyphens-auto mt-4 ml-[8vw] duration-700 " +
+                (isVisibles["page2"]
+                  ? " opacity-100"
+                  : " -translate-x-5 opacity-0 ")
+              }
+            >
+              <p>
+                &emsp;Inspired by many different sources, I wanted to create a
+                beautiful webpage for the sole purpose of testing various web
+                design methodologies and making sure I can make them work
+                together. Within this page, you will find the references and
+                documentation of how this page was created, along with it{"'"}s
+                sources. The kinds of methodologies and tools that are tested on
+                this page is as follows :
+              </p>
+              <div className="space-y-3 m-10 w-[40vw]">
+                {[
+                  "Colorbox",
+                  "Parallax Effect",
+                  "Scrolling fade-in",
+                  "SVG animation",
+                ].map((item, item_idx) => {
+                  return (
+                    <div
+                      className={
+                        borderAirdragon(item_idx) +
+                        " border font-bold border-l-8 hover:translate-x-5 duration-500 hover:text-neutral-900 hover:bg-white hover:border-white " +
+                        textColor(item_idx)
+                      }
+                      key={"p2-item-" + item_idx}
+                    >
+                      <p className="px-4 py-1">{item}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </ParallaxLayer>
-        <ParallaxLayer offset={1.6} speed={0.5}>
+        <ParallaxLayer offset={2} speed={1} className="-z-10">
           {Array(7)
             .fill(0)
             .map((i, i_idx) => (
               <animated.svg
                 id="visual"
-                className="absolute bottom-[-70vh] left-[-25rem] -rotate-45 -scale-x-100"
+                className="absolute bottom-[-60vh] left-[-47vh] z-0"
                 key={"blob1-" + i_idx}
                 viewBox="0 0 100 100"
                 height="90vh"
@@ -275,7 +371,7 @@ function App() {
                   <path
                     fill="none"
                     stroke={airdragonHex(i_idx)}
-                    stroke-width="0.2"
+                    stroke-width="0.1"
                   >
                     <animate
                       attributeName="d"
@@ -292,6 +388,23 @@ function App() {
                 </g>
               </animated.svg>
             ))}
+        </ParallaxLayer>
+        <ParallaxLayer offset={2} sticky={{ start: 2, end: pages }}>
+          <div className="space-y-3 absolute right-0 bottom-0 m-4">
+            {Object.keys(refs).map((item, item_idx) => (
+              <div key={"navigator-" + item_idx} className="flex space-x-1 items-center">
+                <div> example text</div>
+                <div
+                  className={
+                    "w-3 h-10 duration-500 hover:-translate-x-1 border " +
+                    (isVisibles[item] ? " " : bgAirdragon(item_idx)) +
+                    " " +
+                    borderAirdragon(item_idx)
+                  }
+                ></div>
+              </div>
+            ))}
+          </div>
         </ParallaxLayer>
       </Parallax>
     </>
