@@ -3,6 +3,43 @@ import "./index.css";
 import { useEffect, useRef, useState } from "react";
 import { animated, useScroll } from "@react-spring/web";
 
+const useOnScreen = (ref = <div />, rootMargin = "40px", threshold = 1) => {
+  // State and setter for storing whether element is visible
+  const [isIntersecting, setIntersecting] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Update our state when observer callback fires
+        setTimeout(() => setIntersecting(entry.isIntersecting), 0);
+        // setIntersecting(entry.isIntersecting);
+      },
+      {
+        rootMargin,
+        threshold,
+      }
+    );
+    let interval = null;
+    const doObserve = () => {
+      console.log(ref.current)
+      if (ref.current) {
+        observer.observe(ref.current);
+        clearInterval(interval)
+      }
+    }
+    interval = setInterval(doObserve, 500);
+
+
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+  return isIntersecting;
+};
+
 function App() {
   const text = "Air Dragon Hue";
   const textColor = (offset) => {
@@ -78,14 +115,19 @@ function App() {
     }
   };
   const pages = 4;
-  const parallaxRef = useRef()
-  const p2_title = useRef()
-  const onScreen = useOnScreen(p2_title)
+  const parallaxRef = useRef();
+  let p2_title = useRef();
+  let onScreen = useOnScreen(p2_title)
+
+  useEffect(() => {
+    console.log(p2_title)
+    onScreen = (p2_title);
+  },[])
 
   return (
     <>
       <Parallax
-        ref={ parallaxRef }
+        ref={parallaxRef}
         pages={pages}
         className="z-10 h-[200vh] bg-gradient-to-t to-neutral-800 from-neutral-950"
       >
@@ -165,8 +207,8 @@ function App() {
             </h5>
           </ParallaxLayer>
         </ParallaxLayer>
-        <ParallaxLayer offset={1} speed={0.1}>
-        {Array(7)
+        <ParallaxLayer offset={1} speed={0.4}>
+          {Array(7)
             .fill(0)
             .map((i, i_idx) => (
               <animated.svg
@@ -203,36 +245,57 @@ function App() {
             ))}
         </ParallaxLayer>
         <ParallaxLayer offset={2.15} className="flex flex-col p-6">
-          <h2 className="self-end" ref={p2_title} style={{opacity:onScreen(2)}}>1. What is this?</h2>
+          {`${onScreen}`}
+          <h2
+            className={`self-end duration-700 ${
+              onScreen ? " opacity-100" : " translate-x-5 opacity-0 "
+            }`}
+            id="atitle"
+            ref={p2_title}
+          >
+            1. What is this?{``}
+          </h2>
+        </ParallaxLayer>
+        <ParallaxLayer offset={1.6} speed={0.5}>
+          {Array(7)
+            .fill(0)
+            .map((i, i_idx) => (
+              <animated.svg
+                id="visual"
+                className="absolute bottom-[-70vh] left-[-25rem] -rotate-45 -scale-x-100"
+                key={"blob1-" + i_idx}
+                viewBox="0 0 100 100"
+                height="90vh"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                version="1.1"
+                style={{ transform: `translateX(-${100}px)` }}
+              >
+                <g transform="translate(50.56295407309549 49.100233518030976)">
+                  <path
+                    fill="none"
+                    stroke={airdragonHex(i_idx)}
+                    stroke-width="0.2"
+                  >
+                    <animate
+                      attributeName="d"
+                      dur="15000ms"
+                      repeatCount="indefinite"
+                      begin={`${500 * i_idx}ms`}
+                      values="M20 -22C25.8 -14.1 30.4 -7.1 29.7 -0.7C29 5.7 23 11.3 17.1 21.3C11.3 31.3 5.7 45.7 -0.6 46.2C-6.8 46.8 -13.7 33.7 -15 23.7C-16.3 13.7 -12.1 6.8 -16 -3.9C-19.9 -14.7 -32.1 -29.5 -30.8 -37.3C-29.5 -45.1 -14.7 -46.1 -3.8 -42.2C7.1 -38.4 14.1 -29.8 20 -22;
+                    M24.1 -33C25.6 -22.6 17.3 -11.3 12.6 -4.7C7.8 1.8 6.7 3.7 5.2 6.2C3.7 8.7 1.8 11.8 -4 15.9C-9.9 19.9 -19.8 24.8 -22.1 22.3C-24.5 19.8 -19.2 9.9 -16.9 2.4C-14.5 -5.2 -15 -10.4 -12.7 -20.8C-10.4 -31.2 -5.2 -46.9 3.1 -49.9C11.3 -53 22.6 -43.5 24.1 -33;
+                    M23.8 -24.3C27.3 -20.3 24.1 -10.1 20 -4.1C15.8 1.8 10.7 3.7 7.2 14.1C3.7 24.5 1.8 43.5 -2.7 46.2C-7.3 49 -14.6 35.4 -21.1 25C-27.6 14.6 -33.3 7.3 -34.4 -1.1C-35.4 -9.4 -31.9 -18.9 -25.4 -22.9C-18.9 -26.9 -9.4 -25.4 0.4 -25.8C10.1 -26.1 20.3 -28.3 23.8 -24.3;
+                    M20 -22C25.8 -14.1 30.4 -7.1 29.7 -0.7C29 5.7 23 11.3 17.1 21.3C11.3 31.3 5.7 45.7 -0.6 46.2C-6.8 46.8 -13.7 33.7 -15 23.7C-16.3 13.7 -12.1 6.8 -16 -3.9C-19.9 -14.7 -32.1 -29.5 -30.8 -37.3C-29.5 -45.1 -14.7 -46.1 -3.8 -42.2C7.1 -38.4 14.1 -29.8 20 -22;
+                    "
+                    ></animate>
+                  </path>
+                </g>
+              </animated.svg>
+            ))}
         </ParallaxLayer>
       </Parallax>
     </>
   );
 }
 
-// Hook
-function useOnScreen(ref, rootMargin = "0px") {
-  // State and setter for storing whether element is visible
-  const [isIntersecting, setIntersecting] = useState(false);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Update our state when observer callback fires
-        setIntersecting(entry.isIntersecting);
-      },
-      {
-        rootMargin,
-      }
-    );
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    return () => {
-      observer.unobserve(ref.current);
-    };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
-  return isIntersecting;
-}
-
 export default App;
-
